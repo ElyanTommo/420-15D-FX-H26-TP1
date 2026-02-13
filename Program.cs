@@ -1,8 +1,19 @@
 using _420_15D_FX_H26_TP1.Data;
+using _420_15D_FX_H26_TP1.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
+
+
+// Ajoute ASP.NET Identity (utilisateurs + r�les)
+builder.Services.AddDefaultIdentity<Utilisateur>(options =>
+{
+    options.Password.RequireDigit = true;          // Exige au moins un chiffre
+    options.Password.RequiredLength = 6;           // Longueur minimale du mot de passe
+    options.Password.RequireUppercase = false;     // Majuscule non obligatoire
+})
+.AddEntityFrameworkStores<ApplicationDbContext>();
 
 // Add services to the container.
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
@@ -10,8 +21,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(connectionString));
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
-builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
-    .AddEntityFrameworkStores<ApplicationDbContext>();
+
 builder.Services.AddRazorPages();
 
 var app = builder.Build();

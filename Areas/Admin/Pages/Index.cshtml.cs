@@ -1,0 +1,12 @@
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
+
+namespace _420_15D_FX_H26_TP1.Areas.Admin.Pages
+{
+    public class IndexModel : PageModel
+    {
+        public void OnGet()
+        {
+        }
+    }
+}

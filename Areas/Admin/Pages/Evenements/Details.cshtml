@@ -1,0 +1,73 @@
+﻿@page
+@model _420_15D_FX_H26_TP1.Areas.Admin.Pages.Evenements.DetailsModel
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>Evenement</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Evenement.Titre)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Evenement.Titre)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Evenement.Description)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Evenement.Description)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Evenement.Organisateur)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Evenement.Organisateur.Id)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Evenement.Categorie)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Evenement.Categorie.Id)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Evenement.Ville)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Evenement.Ville)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Evenement.Adresse)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Evenement.Adresse)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Evenement.DateDebut)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Evenement.DateDebut)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Evenement.DateFin)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Evenement.DateFin)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Evenement.Image)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Evenement.Image)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-page="./Edit" asp-route-id="@Model.Evenement.Id">Edit</a> |
+    <a asp-page="./Index">Back to List</a>
+</div>
