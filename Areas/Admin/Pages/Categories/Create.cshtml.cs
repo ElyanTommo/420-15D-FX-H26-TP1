@@ -7,9 +7,11 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using _420_15D_FX_H26_TP1.Data;
 using _420_15D_FX_H26_TP1.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace _420_15D_FX_H26_TP1.Areas.Admin.Pages.Categories
 {
+    [Authorize(Roles = "Admin")]
     public class CreateModel : PageModel
     {
         private readonly _420_15D_FX_H26_TP1.Data.ApplicationDbContext _context;

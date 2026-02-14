@@ -157,13 +157,14 @@ namespace _420_15D_FX_H26_TP1.Areas.Identity.Pages.Account
                     Nom = Input.Nom,
                     Adresse = Input.Adresse,
                     Ville = Input.Ville,
-                    CodePostal = Input.CodePostal
+                    CodePostal = Input.CodePostal,
+                    Courriel = Input.Email
                 };
                 var result = await _userManager.CreateAsync(user, Input.Password);
 
                 if (result.Succeeded)
                 {
-                    await _userManager.AddToRoleAsync(user, "Utilisateur");
+                    //await _userManager.AddToRoleAsync(user, "Utilisateur");
                     //_logger.LogInformation("User created a new account with password.");
 
                     //var userId = await _userManager.GetUserIdAsync(user);

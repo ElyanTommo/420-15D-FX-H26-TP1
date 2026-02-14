@@ -11,23 +11,19 @@
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+      
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
             <div class="container">
-                <a class="navbar-brand" asp-area="" asp-page="/Index">_420_15D_FX_H26_TP1</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
+                <a class="navbar-brand" asp-area="Admin" asp-page="/Index">Tableau de Bord</a>
+                <div class="collapse navbar-collapse">
+                    <ul class="navbar-nav ms-auto">
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-page="/Index">Home</a>
+                            <a class="nav-link" asp-area="Admin" asp-page="/Evenements/Index">Evenements</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-page="/Privacy">Privacy</a>
+                            <a class="nav-link" asp-area="Admin" asp-page="/Categories/Index">Catégories</a>
                         </li>
                     </ul>
-                    <partial name="_LoginPartial" />
                 </div>
             </div>
         </nav>
@@ -40,7 +36,7 @@
 
     <footer class="border-top footer text-muted">
         <div class="container">
-            &copy; 2026 - _420_15D_FX_H26_TP1 - <a asp-area="" asp-page="/Privacy">Privacy</a>
+            &copy; 2026 - _420_15D_FX_H26_TP1 - @* <a asp-area="" asp-page="/Privacy">Privacy</a> *@
         </div>
     </footer>
 

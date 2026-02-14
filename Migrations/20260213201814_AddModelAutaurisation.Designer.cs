@@ -12,8 +12,8 @@ using _420_15D_FX_H26_TP1.Data;
 namespace _420_15D_FX_H26_TP1.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20260212182656_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20260213201814_AddModelAutaurisation")]
+    partial class AddModelAutaurisation
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -171,7 +171,9 @@ namespace _420_15D_FX_H26_TP1.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Nom")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasMaxLength(25)
+                        .HasColumnType("nvarchar(25)");
 
                     b.HasKey("Id");
 
@@ -188,7 +190,8 @@ namespace _420_15D_FX_H26_TP1.Migrations
 
                     b.Property<string>("Adresse")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<int>("CategorieId")
                         .HasColumnType("int");
@@ -200,23 +203,25 @@ namespace _420_15D_FX_H26_TP1.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasMaxLength(150)
+                        .HasColumnType("nvarchar(150)");
 
                     b.Property<string>("Image")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("NbParticipants")
-                        .HasColumnType("int");
 
                     b.Property<string>("OrganisateurId")
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Titre")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("Ville")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
 
                     b.HasKey("Id");
 
@@ -225,6 +230,33 @@ namespace _420_15D_FX_H26_TP1.Migrations
                     b.HasIndex("OrganisateurId");
 
                     b.ToTable("Evenements");
+                });
+
+            modelBuilder.Entity("_420_15D_FX_H26_TP1.Models.Participation", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("DateInscription")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("EvenementId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UtilisateurId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("EvenementId");
+
+                    b.HasIndex("UtilisateurId");
+
+                    b.ToTable("Participations");
                 });
 
             modelBuilder.Entity("_420_15D_FX_H26_TP1.Models.Utilisateur", b =>
@@ -248,6 +280,7 @@ namespace _420_15D_FX_H26_TP1.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Courriel")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Email")
@@ -264,6 +297,7 @@ namespace _420_15D_FX_H26_TP1.Migrations
                         .HasColumnType("datetimeoffset");
 
                     b.Property<string>("Nom")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("NomUtilisateur")
@@ -288,6 +322,7 @@ namespace _420_15D_FX_H26_TP1.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("Prenom")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("SecurityStamp")
@@ -385,9 +420,38 @@ namespace _420_15D_FX_H26_TP1.Migrations
                     b.Navigation("Organisateur");
                 });
 
+            modelBuilder.Entity("_420_15D_FX_H26_TP1.Models.Participation", b =>
+                {
+                    b.HasOne("_420_15D_FX_H26_TP1.Models.Evenement", "Evenement")
+                        .WithMany("Participations")
+                        .HasForeignKey("EvenementId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("_420_15D_FX_H26_TP1.Models.Utilisateur", "Utilisateur")
+                        .WithMany("Participations")
+                        .HasForeignKey("UtilisateurId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Evenement");
+
+                    b.Navigation("Utilisateur");
+                });
+
             modelBuilder.Entity("_420_15D_FX_H26_TP1.Models.Categorie", b =>
                 {
                     b.Navigation("Evenements");
+                });
+
+            modelBuilder.Entity("_420_15D_FX_H26_TP1.Models.Evenement", b =>
+                {
+                    b.Navigation("Participations");
+                });
+
+            modelBuilder.Entity("_420_15D_FX_H26_TP1.Models.Utilisateur", b =>
+                {
+                    b.Navigation("Participations");
                 });
 #pragma warning restore 612, 618
         }

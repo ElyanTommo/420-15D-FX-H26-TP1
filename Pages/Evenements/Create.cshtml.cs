@@ -7,9 +7,12 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using _420_15D_FX_H26_TP1.Data;
 using _420_15D_FX_H26_TP1.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace _420_15D_FX_H26_TP1.Pages.Evenements
 {
+
+    [Authorize(Roles = "Utilisateur")]
     public class CreateModel : PageModel
     {
 
@@ -27,8 +30,8 @@ namespace _420_15D_FX_H26_TP1.Pages.Evenements
 
         public IActionResult OnGet()
         {
-        ViewData["CategorieId"] = new SelectList(_context.Categories, "Id", "Nom");
-        ViewData["OrganisateurId"] = new SelectList(_context.Users, "Id", "Id");
+            ViewData["CategorieId"] = new SelectList(_context.Categories, "Id", "Nom");
+            ViewData["OrganisateurId"] = new SelectList(_context.Users, "Id", "Id");
             return Page();
         }
 

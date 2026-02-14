@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace _420_15D_FX_H26_TP1.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialCreate : Migration
+    public partial class AddModelAutaurisation : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -31,9 +31,9 @@ namespace _420_15D_FX_H26_TP1.Migrations
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     NomUtilisateur = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Prenom = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Nom = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Courriel = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Prenom = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Nom = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Courriel = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Adresse = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Ville = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     CodePostal = table.Column<string>(type: "nvarchar(max)", nullable: false),
@@ -63,7 +63,7 @@ namespace _420_15D_FX_H26_TP1.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Nom = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    Nom = table.Column<string>(type: "nvarchar(25)", maxLength: 25, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -183,14 +183,13 @@ namespace _420_15D_FX_H26_TP1.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     CategorieId = table.Column<int>(type: "int", nullable: false),
-                    Titre = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Titre = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: false),
                     OrganisateurId = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    Ville = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Adresse = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Ville = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
+                    Adresse = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     DateDebut = table.Column<DateTime>(type: "datetime2", nullable: false),
                     DateFin = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    NbParticipants = table.Column<int>(type: "int", nullable: false),
                     Image = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
@@ -205,6 +204,33 @@ namespace _420_15D_FX_H26_TP1.Migrations
                         name: "FK_Evenements_Categories_CategorieId",
                         column: x => x.CategorieId,
                         principalTable: "Categories",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Participations",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    EvenementId = table.Column<int>(type: "int", nullable: false),
+                    UtilisateurId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    DateInscription = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Participations", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Participations_AspNetUsers_UtilisateurId",
+                        column: x => x.UtilisateurId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Participations_Evenements_EvenementId",
+                        column: x => x.EvenementId,
+                        principalTable: "Evenements",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -257,6 +283,16 @@ namespace _420_15D_FX_H26_TP1.Migrations
                 name: "IX_Evenements_OrganisateurId",
                 table: "Evenements",
                 column: "OrganisateurId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Participations_EvenementId",
+                table: "Participations",
+                column: "EvenementId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Participations_UtilisateurId",
+                table: "Participations",
+                column: "UtilisateurId");
         }
 
         /// <inheritdoc />
@@ -278,10 +314,13 @@ namespace _420_15D_FX_H26_TP1.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "Evenements");
+                name: "Participations");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
+
+            migrationBuilder.DropTable(
+                name: "Evenements");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
