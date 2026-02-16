@@ -5,10 +5,10 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+@* <h1>Évènements à venir/h1>
 
 <p>
-    <a asp-page="Create">Create New</a>
+    <a asp-page="Create">Create votre évènement</a>
 </p>
 <table class="table">
     <thead>
@@ -81,4 +81,94 @@
         </tr>
 }
     </tbody>
-</table>
+</table> *@
+<h1 class="mb-4">Évènements à venir</h1>
+
+<p class="mb-4">
+    <a asp-page="Create" class="btn btn-primary">
+        Créer votre évènement
+    </a>
+</p>
+
+@if (Model.Evenement == null || !Model.Evenement.Any())
+{
+    <div class="alert alert-info">
+        Aucun évènement disponible pour le moment.
+    </div>
+}
+else
+{
+    <div class="row g-4">
+        @foreach (var eve in Model.Evenement)
+        {
+            <div class="col-12 col-md-6 col-lg-4">
+                <div class="card h-100 shadow-sm">
+
+                    <!-- IMAGE -->
+                    @if (!string.IsNullOrEmpty(eve.Image))
+                    {
+                        <img src="@Model.ImagePath@eve.Image" alt="Image de - @eve.Titre"
+                             class="card-img-top"
+                             alt="Image de @eve.Titre"
+                             style="height: 200px; object-fit: cover;" />
+                    }
+                    else
+                    {
+                        <img src="https://via.placeholder.com/600x400?text=Evenement"
+                             class="card-img-top"
+                             alt="Aucune image"
+                             style="height: 200px; object-fit: cover;" />
+                    }
+
+                    <div class="card-body d-flex flex-column">
+                        <h5 class="card-title">@eve.Titre</h5>
+
+                        <p class="card-text text-muted">
+                            @eve.Description
+                        </p>
+
+                        <hr />
+
+                        <p class="mb-1">
+                            <strong>Ville :</strong> @eve.Ville
+                        </p>
+
+                        <p class="mb-1">
+                            <strong>Adresse :</strong> @eve.Adresse
+                        </p>
+
+                        <p class="mb-1">
+                            <strong>Début :</strong> @eve.DateDebut.ToString("yyyy-MM-dd HH:mm")
+                        </p>
+
+                        <p class="mb-3">
+                            <strong>Fin :</strong> @eve.DateFin.ToString("yyyy-MM-dd HH:mm")
+                        </p>
+
+                        <!-- BOUTONS -->
+                        <div class="mt-auto d-flex gap-2">
+                            <a asp-page="./Details"
+                               asp-route-id="@eve.Id"
+                               class="btn btn-outline-secondary w-100">
+                                Détails
+                            </a>
+
+                            <a asp-page="./Edit"
+                               asp-route-id="@eve.Id"
+                               class="btn btn-outline-primary w-100">
+                                Modifier
+                            </a>
+
+                            <a asp-page="./Delete"
+                               asp-route-id="@eve.Id"
+                               class="btn btn-outline-danger w-100">
+                                Supprimer
+                            </a>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        }
+    </div>
+}

@@ -17,7 +17,7 @@ namespace _420_15D_FX_H26_TP1.Data
             }
             if (!await userManager.Users.AnyAsync())
             {
-                Utilisateur user = new Utilisateur()
+                Utilisateur adminUser = new Utilisateur()
                 {
                     UserName = "admin@cegepgarneau.ca",
                     NomUtilisateur = "snake",
@@ -30,10 +30,13 @@ namespace _420_15D_FX_H26_TP1.Data
                     Adresse = "123 rue du marabout"
 
                 };
-                await userManager.CreateAsync(user, "Password123!");
-                await userManager.CreateAsync(user, "Admin");
+                var resultAdmin = await userManager.CreateAsync(adminUser, "Password123!");
+                if (resultAdmin.Succeeded)
+                {
+                    await userManager.AddToRoleAsync(adminUser, "Admin");  // ✅ CORRECTION ICI
+                }
 
-                user = new Utilisateur()
+                Utilisateur invite = new Utilisateur()
                 {
                     UserName = "elyan@yahoo.com",
                     NomUtilisateur= "WOLF",
@@ -45,8 +48,11 @@ namespace _420_15D_FX_H26_TP1.Data
                     CodePostal = "G1H5V7",
                     Adresse = "123 rue du roi"
                 };
-                await userManager.CreateAsync(user, "Password123!");
-                await userManager.CreateAsync(user, "Utilisateur");
+                var resultUser = await userManager.CreateAsync(invite, "Password123!");
+                if (resultUser.Succeeded)
+                {
+                    await userManager.AddToRoleAsync(invite, "Utilisateur");
+                }
             }
             if (!await context.Categories.AnyAsync())
             {

@@ -12,8 +12,8 @@ using _420_15D_FX_H26_TP1.Data;
 namespace _420_15D_FX_H26_TP1.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20260213201814_AddModelAutaurisation")]
-    partial class AddModelAutaurisation
+    [Migration("20260216125308_AddGestionImage")]
+    partial class AddGestionImage
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -268,11 +268,9 @@ namespace _420_15D_FX_H26_TP1.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Adresse")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("CodePostal")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ConcurrencyStamp")
@@ -280,7 +278,6 @@ namespace _420_15D_FX_H26_TP1.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Courriel")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Email")
@@ -297,11 +294,9 @@ namespace _420_15D_FX_H26_TP1.Migrations
                         .HasColumnType("datetimeoffset");
 
                     b.Property<string>("Nom")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("NomUtilisateur")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("NormalizedEmail")
@@ -322,7 +317,6 @@ namespace _420_15D_FX_H26_TP1.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("Prenom")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("SecurityStamp")
@@ -336,7 +330,6 @@ namespace _420_15D_FX_H26_TP1.Migrations
                         .HasColumnType("nvarchar(256)");
 
                     b.Property<string>("Ville")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
