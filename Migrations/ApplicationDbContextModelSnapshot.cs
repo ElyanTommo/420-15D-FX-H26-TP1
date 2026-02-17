@@ -193,6 +193,11 @@ namespace _420_15D_FX_H26_TP1.Migrations
                     b.Property<int>("CategorieId")
                         .HasColumnType("int");
 
+                    b.Property<string>("CodePostal")
+                        .IsRequired()
+                        .HasMaxLength(7)
+                        .HasColumnType("nvarchar(7)");
+
                     b.Property<DateTime>("DateDebut")
                         .HasColumnType("datetime2");
 
@@ -203,6 +208,9 @@ namespace _420_15D_FX_H26_TP1.Migrations
                         .IsRequired()
                         .HasMaxLength(150)
                         .HasColumnType("nvarchar(150)");
+
+                    b.Property<bool>("EstArchive")
+                        .HasColumnType("bit");
 
                     b.Property<string>("Image")
                         .HasColumnType("nvarchar(max)");

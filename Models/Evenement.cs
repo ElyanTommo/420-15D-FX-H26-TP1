@@ -27,6 +27,13 @@ namespace _420_15D_FX_H26_TP1.Models
         [StringLength(50, ErrorMessage = "L'adresse ne peut pas dépasser 50 caractères.")]
         public string Adresse { get; set; }
 
+
+        [Required(ErrorMessage = "Le code postal est obligatoire.")]
+        [RegularExpression(@"^[A-Za-z]\d[A-Za-z][ -]?\d[A-Za-z]\d$",
+          ErrorMessage = "Format de code postal invalide (ex: G1P 3T2).")]
+        [StringLength(7, ErrorMessage = "Le code postal ne peut pas dépasser 7 caractères.")]
+        public string CodePostal { get; set; }
+
         [DataType(DataType.Date, ErrorMessage = "Format de date invalide.")]
         public DateTime DateDebut { get; set; }
 
@@ -34,6 +41,8 @@ namespace _420_15D_FX_H26_TP1.Models
         public DateTime DateFin { get; set; }
 
         public string? Image { get; set; }
+
+        public bool EstArchive { get; set; } = false;
         public List<Participation> Participations { get; set; } = new();
 
     }

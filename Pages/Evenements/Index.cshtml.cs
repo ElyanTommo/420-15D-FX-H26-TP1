@@ -26,16 +26,16 @@ namespace _420_15D_FX_H26_TP1.Pages.Evenements
         public IList<Evenement> Evenement { get;set; } = default!;
         public string ImagePath { get; set; } = string.Empty;
 
-        public async Task OnGetAsync()
+        public async Task OnGetAsync()    
         {
-            //Evenement = await _context.Evenements
-            //    .Include(e => e.Categorie)
-            //    .Include(e => e.Organisateur).ToListAsync();
+            
 
             Evenement = await _context.Evenements
                 .Include(e => e.Categorie)
+                .Where(e => !e.EstArchive)
                 .Include(e => e.Organisateur)
                  .OrderByDescending(e => e.DateDebut)
+                 .OrderByDescending(e => e.Titre)
                  .ToListAsync();
 
             ImagePath = _configuration["Images:PublicUrl"] ?? "/uploads/events/";

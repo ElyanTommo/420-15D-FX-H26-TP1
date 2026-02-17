@@ -121,6 +121,22 @@ namespace _420_15D_FX_H26_TP1.Pages.Evenements
                 return Page();
 
             }
+            var evenementExiste = await _context.Evenements
+              .AnyAsync(e =>
+                  e.Titre.ToLower() == Evenement.Titre.ToLower() &&
+                  e.DateDebut.Date == Evenement.DateDebut.Date &&
+                  e.Ville.ToLower() == Evenement.Ville.ToLower());
+
+            if (evenementExiste)
+            {
+                ModelState.AddModelError(string.Empty,
+                    "Un événement avec le même titre, date de début et ville existe déjà.");
+                ViewData["CategorieId"] = new SelectList(
+                    await _context.Categories.ToListAsync(),
+                    "Id",
+                    "Nom");
+                return Page();
+            }
 
             if (ImageFile != null)
             {

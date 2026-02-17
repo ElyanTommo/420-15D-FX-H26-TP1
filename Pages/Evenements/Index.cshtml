@@ -104,7 +104,6 @@ else
             <div class="col-12 col-md-6 col-lg-4">
                 <div class="card h-100 shadow-sm">
 
-                    <!-- IMAGE -->
                     @if (!string.IsNullOrEmpty(eve.Image))
                     {
                         <img src="@Model.ImagePath@eve.Image" alt="Image de - @eve.Titre"
@@ -136,6 +135,9 @@ else
                         <p class="mb-1">
                             <strong>Adresse :</strong> @eve.Adresse
                         </p>
+                        <p class="mb-1">
+                            <strong>Codepostal :</strong> @eve.CodePostal
+                        </p>
 
                         <p class="mb-1">
                             <strong>Début :</strong> @eve.DateDebut.ToString("yyyy-MM-dd HH:mm")
@@ -145,7 +147,6 @@ else
                             <strong>Fin :</strong> @eve.DateFin.ToString("yyyy-MM-dd HH:mm")
                         </p>
 
-                        <!-- BOUTONS -->
                         <div class="mt-auto d-flex gap-2">
                             <a asp-page="./Details"
                                asp-route-id="@eve.Id"

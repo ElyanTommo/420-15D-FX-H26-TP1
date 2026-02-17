@@ -36,7 +36,7 @@
 
                     
                     <div class="mb-3">
-                        <label asp-for="Evenement.CategorieId" class="form-label fw-semibold"></label>
+                        <label asp-for="Evenement.CategorieId" class="form-label fw-semibold">Categories</label>
                         <select asp-for="Evenement.CategorieId"
                                 class="form-select"
                                 asp-items="ViewBag.CategorieId">
@@ -52,14 +52,19 @@
                             <input asp-for="Evenement.Ville" class="form-control" placeholder="Ex : Montréal" />
                             <span asp-validation-for="Evenement.Ville" class="text-danger small"></span>
                         </div>
-
-                        <div class="col-md-8 mb-3">
-                            <label asp-for="Evenement.Adresse" class="form-label fw-semibold"></label>
-                            <input asp-for="Evenement.Adresse" class="form-control" placeholder="Ex : 123 rue Sainte-Catherine" />
-                            <span asp-validation-for="Evenement.Adresse" class="text-danger small"></span>
+                        <div class="col-md-6 mb-3">
+                            <label asp-for="Evenement.CodePostal" class="form-label fw-semibold"></label>
+                            <input asp-for="Evenement.CodePostal" class="form-control" placeholder="Ex : H2X 1Y4" />
+                            <span asp-validation-for="Evenement.CodePostal" class="text-danger small"></span>
                         </div>
-                    </div>
 
+                       
+                    </div>
+                    <div class="col-md-8 mb-3">
+                        <label asp-for="Evenement.Adresse" class="form-label fw-semibold"></label>
+                        <input asp-for="Evenement.Adresse" class="form-control" placeholder="Ex : 123 rue Sainte-Catherine" />
+                        <span asp-validation-for="Evenement.Adresse" class="text-danger small"></span>
+                    </div>
                    
                     <div class="row">
                         <div class="col-md-6 mb-3">

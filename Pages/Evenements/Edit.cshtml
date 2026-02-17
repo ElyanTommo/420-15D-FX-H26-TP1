@@ -5,19 +5,24 @@
     ViewData["Title"] = "Edit";
 }
 
-<h1>Edit</h1>
+<h1 class="text-center my-2">Modifier un évènement</h1>
 
-<h4>Evenement</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
         <form method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="Evenement.Id" />
-            <div class="form-group">
-                <label asp-for="Evenement.CategorieId" class="control-label"></label>
-                <select asp-for="Evenement.CategorieId" class="form-control" asp-items="ViewBag.CategorieId" ></select>
-                <span asp-validation-for="Evenement.CategorieId" class="text-danger"></span>
+          
+            <div class="mb-3">
+                <label asp-for="Evenement.CategorieId" class="form-label fw-semibold">
+                    <i class="bi bi-tag text-primary"></i> Catégorie
+                </label>
+                <select asp-for="Evenement.CategorieId"
+                        class="form-select form-select-lg"
+                        asp-items="ViewBag.CategorieId">
+                </select>
+                <span asp-validation-for="Evenement.CategorieId" class="text-danger small"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Evenement.Titre" class="control-label"></label>
@@ -29,15 +34,33 @@
                 <input asp-for="Evenement.Description" class="form-control" />
                 <span asp-validation-for="Evenement.Description" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="Evenement.OrganisateurId" class="control-label"></label>
-                <select asp-for="Evenement.OrganisateurId" class="form-control" asp-items="ViewBag.OrganisateurId" ></select>
-                <span asp-validation-for="Evenement.OrganisateurId" class="text-danger"></span>
+            
+            <div class="mb-3">
+                <label class="form-label fw-semibold">
+                    <i class="bi bi-person text-primary"></i> Organisateur
+                </label>
+                <div class="input-group">
+                    <span class="input-group-text bg-light">
+                        <i class="bi bi-person-circle"></i>
+                    </span>
+                    <input type="text"
+                           class="form-control bg-light"
+                           value="@ViewData["NomOrganisateur"]"
+                           readonly
+                           disabled />
+                </div>
+                <input type="hidden" asp-for="Evenement.OrganisateurId" />
             </div>
+    
             <div class="form-group">
                 <label asp-for="Evenement.Ville" class="control-label"></label>
                 <input asp-for="Evenement.Ville" class="form-control" />
                 <span asp-validation-for="Evenement.Ville" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Evenement.CodePostal" class="control-label"></label>
+                <input asp-for="Evenement.CodePostal" class="form-control" />
+                <span asp-validation-for="Evenement.CodePostal" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Evenement.Adresse" class="control-label"></label>
@@ -56,18 +79,18 @@
             </div>
             <div class="form-group">
                 <label asp-for="Evenement.Image" class="control-label"></label>
-                <input asp-for="Evenement.Image" class="form-control" />
+                <input asp-for="Evenement.Image" class="form-control" disabled />
                 <span asp-validation-for="Evenement.Image" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
+                <input type="submit" value="Sauvegarder" class="btn btn-primary" />
             </div>
         </form>
     </div>
 </div>
 
 <div>
-    <a asp-page="./Index">Back to List</a>
+    <a class="btn btn-secondary" asp-page="./Index">Retour à la liste</a>
 </div>
 
 @section Scripts {
