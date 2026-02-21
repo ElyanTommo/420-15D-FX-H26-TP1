@@ -12,8 +12,8 @@ using _420_15D_FX_H26_TP1.Data;
 namespace _420_15D_FX_H26_TP1.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20260216125308_AddGestionImage")]
-    partial class AddGestionImage
+    [Migration("20260221023246_JeuxDeDonnees")]
+    partial class JeuxDeDonnees
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -170,6 +170,9 @@ namespace _420_15D_FX_H26_TP1.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<bool>("EstArchive")
+                        .HasColumnType("bit");
+
                     b.Property<string>("Nom")
                         .IsRequired()
                         .HasMaxLength(25)
@@ -196,6 +199,11 @@ namespace _420_15D_FX_H26_TP1.Migrations
                     b.Property<int>("CategorieId")
                         .HasColumnType("int");
 
+                    b.Property<string>("CodePostal")
+                        .IsRequired()
+                        .HasMaxLength(7)
+                        .HasColumnType("nvarchar(7)");
+
                     b.Property<DateTime>("DateDebut")
                         .HasColumnType("datetime2");
 
@@ -206,6 +214,9 @@ namespace _420_15D_FX_H26_TP1.Migrations
                         .IsRequired()
                         .HasMaxLength(150)
                         .HasColumnType("nvarchar(150)");
+
+                    b.Property<bool>("EstArchive")
+                        .HasColumnType("bit");
 
                     b.Property<string>("Image")
                         .HasColumnType("nvarchar(max)");

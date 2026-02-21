@@ -42,12 +42,7 @@ namespace _420_15D_FX_H26_TP1.Pages.Evenements
 
         public SelectList Categories { get; set; }
 
-        //public IActionResult OnGet()
-        //{
-        //    ViewData["CategorieId"] = new SelectList(_context.Categories, "Id", "Nom");
-        //    ViewData["OrganisateurId"] = new SelectList(_context.Users, "Id", "Id");
-        //    return Page();
-        //}
+        
 
         public async Task<IActionResult> OnGetAsync()
         {
@@ -60,7 +55,9 @@ namespace _420_15D_FX_H26_TP1.Pages.Evenements
             Evenement.OrganisateurId = user.Id;
 
             ViewData["CategorieId"] = new SelectList(
-                await _context.Categories.ToListAsync(),
+                await _context.Categories
+                .Where(c => !c.EstArchive)
+                .ToListAsync(),
                 "Id",
                 "Nom");
 
@@ -71,15 +68,13 @@ namespace _420_15D_FX_H26_TP1.Pages.Evenements
 
         public async Task<IActionResult> OnPostAsync()
         {
-            //if (!ModelState.IsValid)
-            //{
-            //    return Page();
-            //}
 
-            //_context.Evenements.Add(Evenement);
-            //await _context.SaveChangesAsync();
-            //TempData["message"] = "L'évènement a été crée avec succès! :D";
-            //return RedirectToPage("./Index");
+
+
+            if (!ModelState.IsValid)
+            {
+                return Page();
+            }
 
 
             var user = await _userManager.GetUserAsync(User);
@@ -188,7 +183,7 @@ namespace _420_15D_FX_H26_TP1.Pages.Evenements
             _context.Evenements.Add(Evenement);
             await _context.SaveChangesAsync();
 
-            TempData["SuccessMessage"] = "Votre événement a été créé avec succès!";
+            TempData["SuccessMessage"] = "Votre évènement a été créer avec succès!";
             return RedirectToPage("./Index");
 
 

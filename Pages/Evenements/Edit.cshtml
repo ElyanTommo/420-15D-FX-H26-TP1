@@ -1,98 +1,130 @@
-﻿@page
+﻿
+@page
 @model _420_15D_FX_H26_TP1.Pages.Evenements.EditModel
 
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = "Modifier";
 }
 
-<h1 class="text-center my-2">Modifier un évènement</h1>
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8 col-md-10">
 
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form method="post">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="Evenement.Id" />
-          
-            <div class="mb-3">
-                <label asp-for="Evenement.CategorieId" class="form-label fw-semibold">
-                    <i class="bi bi-tag text-primary"></i> Catégorie
-                </label>
-                <select asp-for="Evenement.CategorieId"
-                        class="form-select form-select-lg"
-                        asp-items="ViewBag.CategorieId">
-                </select>
-                <span asp-validation-for="Evenement.CategorieId" class="text-danger small"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Evenement.Titre" class="control-label"></label>
-                <input asp-for="Evenement.Titre" class="form-control" />
-                <span asp-validation-for="Evenement.Titre" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Evenement.Description" class="control-label"></label>
-                <input asp-for="Evenement.Description" class="form-control" />
-                <span asp-validation-for="Evenement.Description" class="text-danger"></span>
-            </div>
-            
-            <div class="mb-3">
-                <label class="form-label fw-semibold">
-                    <i class="bi bi-person text-primary"></i> Organisateur
-                </label>
-                <div class="input-group">
-                    <span class="input-group-text bg-light">
-                        <i class="bi bi-person-circle"></i>
-                    </span>
-                    <input type="text"
-                           class="form-control bg-light"
-                           value="@ViewData["NomOrganisateur"]"
-                           readonly
-                           disabled />
+            <div class="card shadow border-0">
+                <div class="card-body p-4">
+
+                    <h2 class="text-center mb-4 fw-bold text-primary">
+                        Modifier un évènement
+                    </h2>
+
+                    <form method="post">
+
+                        <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
+
+                        <input type="hidden" asp-for="Evenement.Id" />
+                        <input type="hidden" asp-for="Evenement.OrganisateurId" />
+                        <input type="hidden" asp-for="Evenement.Image" />
+
+                        <div class="mb-3">
+                            <label asp-for="Evenement.CategorieId" class="form-label fw-semibold"></label>
+                            <select asp-for="Evenement.CategorieId"
+                                    class="form-select"
+                                    asp-items="ViewBag.CategorieId">
+                            </select>
+                            <span asp-validation-for="Evenement.CategorieId" class="text-danger small"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="Evenement.Titre" class="form-label fw-semibold"></label>
+                            <input asp-for="Evenement.Titre" class="form-control" />
+                            <span asp-validation-for="Evenement.Titre" class="text-danger small"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="Evenement.Description" class="form-label fw-semibold"></label>
+                            <textarea asp-for="Evenement.Description"
+                                      class="form-control"
+                                      rows="4"></textarea>
+                            <span asp-validation-for="Evenement.Description" class="text-danger small"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold">Organisateur</label>
+                            <input type="text"
+                                   class="form-control bg-light"
+                                   value="@ViewData["NomOrganisateur"]"
+                                   readonly />
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label asp-for="Evenement.Ville" class="form-label fw-semibold"></label>
+                                <input asp-for="Evenement.Ville" class="form-control" />
+                                <span asp-validation-for="Evenement.Ville" class="text-danger small"></span>
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                <label asp-for="Evenement.CodePostal" class="form-label fw-semibold"></label>
+                                <input asp-for="Evenement.CodePostal" class="form-control" />
+                                <span asp-validation-for="Evenement.CodePostal" class="text-danger small"></span>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="Evenement.Adresse" class="form-label fw-semibold"></label>
+                            <input asp-for="Evenement.Adresse" class="form-control" />
+                            <span asp-validation-for="Evenement.Adresse" class="text-danger small"></span>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label asp-for="Evenement.DateDebut" class="form-label fw-semibold"></label>
+                                <input asp-for="Evenement.DateDebut"
+                                       type="date"
+                                       class="form-control" />
+                                <span asp-validation-for="Evenement.DateDebut" class="text-danger small"></span>
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                <label asp-for="Evenement.DateFin" class="form-label fw-semibold"></label>
+                                <input asp-for="Evenement.DateFin"
+                                       type="date"
+                                       class="form-control" />
+                                <span asp-validation-for="Evenement.DateFin" class="text-danger small"></span>
+                            </div>
+                        </div>
+
+                        @if (!string.IsNullOrEmpty(Model.ImageActuelle))
+                        {
+                            <div class="mb-4 text-center">
+                                <label class="form-label fw-semibold d-block">Image actuelle</label>
+                                <img src="@($"/uploads/evenements/{Model.ImageActuelle}")"
+                                     class="img-fluid rounded shadow-sm border"
+                                     style="max-height: 300px; object-fit: cover;" />
+                            </div>
+                        }
+
+                        <div class="d-flex justify-content-between mt-4">
+                            <a asp-page="./Index" class="btn btn-outline-secondary px-4">
+                                Annuler
+                            </a>
+
+                            <button type="submit" class="btn btn-primary px-4">
+                                Sauvegarder
+                            </button>
+                        </div>
+
+                    </form>
+
                 </div>
-                <input type="hidden" asp-for="Evenement.OrganisateurId" />
             </div>
-    
-            <div class="form-group">
-                <label asp-for="Evenement.Ville" class="control-label"></label>
-                <input asp-for="Evenement.Ville" class="form-control" />
-                <span asp-validation-for="Evenement.Ville" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Evenement.CodePostal" class="control-label"></label>
-                <input asp-for="Evenement.CodePostal" class="form-control" />
-                <span asp-validation-for="Evenement.CodePostal" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Evenement.Adresse" class="control-label"></label>
-                <input asp-for="Evenement.Adresse" class="form-control" />
-                <span asp-validation-for="Evenement.Adresse" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Evenement.DateDebut" class="control-label"></label>
-                <input asp-for="Evenement.DateDebut" class="form-control" />
-                <span asp-validation-for="Evenement.DateDebut" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Evenement.DateFin" class="control-label"></label>
-                <input asp-for="Evenement.DateFin" class="form-control" />
-                <span asp-validation-for="Evenement.DateFin" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Evenement.Image" class="control-label"></label>
-                <input asp-for="Evenement.Image" class="form-control" disabled />
-                <span asp-validation-for="Evenement.Image" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Sauvegarder" class="btn btn-primary" />
-            </div>
-        </form>
+
+        </div>
     </div>
 </div>
 
-<div>
-    <a class="btn btn-secondary" asp-page="./Index">Retour à la liste</a>
-</div>
-
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }

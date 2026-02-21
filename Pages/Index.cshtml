@@ -1,10 +1,14 @@
 ﻿@page
 @model IndexModel
 @{
-    ViewData["Title"] = "Home page";
+    ViewData["Title"] = "Accueil";
 }
 
 <div class="text-center">
-    <h1 class="display-4">Welcome</h1>
+    <h1 class="display-4">Bienvenue</h1>
+     <a asp-page="/Evenements/Index"
+                 class="btn btn-outline-primary w-50">
+                       Nos évènements
+     </a>
     <p>@Model.Description</p>
 </div>

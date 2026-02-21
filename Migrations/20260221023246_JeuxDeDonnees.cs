@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace _420_15D_FX_H26_TP1.Migrations
 {
     /// <inheritdoc />
-    public partial class UpdateUtilisateurNullable : Migration
+    public partial class JeuxDeDonnees : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -63,7 +63,8 @@ namespace _420_15D_FX_H26_TP1.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Nom = table.Column<string>(type: "nvarchar(25)", maxLength: 25, nullable: false)
+                    Nom = table.Column<string>(type: "nvarchar(25)", maxLength: 25, nullable: false),
+                    EstArchive = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -188,9 +189,11 @@ namespace _420_15D_FX_H26_TP1.Migrations
                     OrganisateurId = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     Ville = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
                     Adresse = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    CodePostal = table.Column<string>(type: "nvarchar(7)", maxLength: 7, nullable: false),
                     DateDebut = table.Column<DateTime>(type: "datetime2", nullable: false),
                     DateFin = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Image = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    Image = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    EstArchive = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {

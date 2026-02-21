@@ -167,6 +167,9 @@ namespace _420_15D_FX_H26_TP1.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<bool>("EstArchive")
+                        .HasColumnType("bit");
+
                     b.Property<string>("Nom")
                         .IsRequired()
                         .HasMaxLength(25)

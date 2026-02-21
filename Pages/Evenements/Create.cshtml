@@ -1,118 +1,140 @@
-﻿@page
+﻿
+@page
 @model _420_15D_FX_H26_TP1.Pages.Evenements.CreateModel
 
-        @{
-        ViewData["Title"] = "Create";
-        }
+@{
+    ViewData["Title"] = "Créer un événement";
+}
 
-<h1 class="text-center my-4">Créer votre évènement</h1>
-    <div class="row">
-    <div class="col-md-4">
-    
-        <form method="post" enctype="multipart/form-data" class="mt-4">
-            <input type="hidden" asp-for="Evenement.OrganisateurId" />
-            <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
+<div class="container py-5">
 
-            <div class="card shadow-sm border-0">
-                <div class="card-body p-4">
+    <div class="text-center mb-5">
+        <h1 class="fw-bold">
+            <i class="bi bi-calendar-plus text-primary"></i>
+            Créer un événement
+        </h1>
+        <p class="text-muted">
+            Remplissez les informations ci-dessous pour publier votre événement.
+        </p>
+    </div>
 
-                    <h4 class="mb-4 fw-bold">Créer un événement</h4>
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
 
-                    <div class="mb-3">
-                        <label asp-for="Evenement.Titre" class="form-label fw-semibold"></label>
-                        <input asp-for="Evenement.Titre" class="form-control" placeholder="Ex : Soirée jeux, Conférence, Tournoi..." />
-                        <span asp-validation-for="Evenement.Titre" class="text-danger small"></span>
-                    </div>
+            <form method="post" enctype="multipart/form-data">
+                <input type="hidden" asp-for="Evenement.OrganisateurId" />
 
-                    
-                    <div class="mb-3">
-                        <label asp-for="Evenement.Description" class="form-label fw-semibold"></label>
-                        <textarea asp-for="Evenement.Description"
-                                  class="form-control"
-                                  rows="3"
-                                  placeholder="Décris ton événement en quelques lignes..."></textarea>
-                        <span asp-validation-for="Evenement.Description" class="text-danger small"></span>
-                    </div>
+                <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
 
-                    
-                    <div class="mb-3">
-                        <label asp-for="Evenement.CategorieId" class="form-label fw-semibold">Categories</label>
-                        <select asp-for="Evenement.CategorieId"
-                                class="form-select"
-                                asp-items="ViewBag.CategorieId">
-                            <option value="">-- Choisir une catégorie --</option>
-                        </select>
-                        <span asp-validation-for="Evenement.CategorieId" class="text-danger small"></span>
-                    </div>
+                <div class="card shadow border-0 rounded-4">
+                    <div class="card-body p-5">
 
-                    
-                    <div class="row">
-                        <div class="col-md-4 mb-3">
-                            <label asp-for="Evenement.Ville" class="form-label fw-semibold"></label>
-                            <input asp-for="Evenement.Ville" class="form-control" placeholder="Ex : Montréal" />
-                            <span asp-validation-for="Evenement.Ville" class="text-danger small"></span>
-                        </div>
-                        <div class="col-md-6 mb-3">
-                            <label asp-for="Evenement.CodePostal" class="form-label fw-semibold"></label>
-                            <input asp-for="Evenement.CodePostal" class="form-control" placeholder="Ex : H2X 1Y4" />
-                            <span asp-validation-for="Evenement.CodePostal" class="text-danger small"></span>
+                        <div class="mb-4">
+                            <label asp-for="Evenement.Titre" class="form-label fw-semibold"></label>
+                            <input asp-for="Evenement.Titre"
+                                   class="form-control form-control-lg"
+                                   placeholder="Ex : Festival d'été, Conférence IA..." />
+                            <span asp-validation-for="Evenement.Titre" class="text-danger small"></span>
                         </div>
 
-                       
-                    </div>
-                    <div class="col-md-8 mb-3">
-                        <label asp-for="Evenement.Adresse" class="form-label fw-semibold"></label>
-                        <input asp-for="Evenement.Adresse" class="form-control" placeholder="Ex : 123 rue Sainte-Catherine" />
-                        <span asp-validation-for="Evenement.Adresse" class="text-danger small"></span>
-                    </div>
-                   
-                    <div class="row">
-                        <div class="col-md-6 mb-3">
-                            <label asp-for="Evenement.DateDebut" class="form-label fw-semibold"></label>
-                            <input asp-for="Evenement.DateDebut" type="date" class="form-control" />
-                            <span asp-validation-for="Evenement.DateDebut" class="text-danger small"></span>
+                        <div class="mb-4">
+                            <label asp-for="Evenement.Description" class="form-label fw-semibold"></label>
+                            <textarea asp-for="Evenement.Description"
+                                      class="form-control"
+                                      rows="4"
+                                      placeholder="Décrivez votre événement..."></textarea>
+                            <span asp-validation-for="Evenement.Description" class="text-danger small"></span>
                         </div>
 
-                        <div class="col-md-6 mb-3">
-                            <label asp-for="Evenement.DateFin" class="form-label fw-semibold"></label>
-                            <input asp-for="Evenement.DateFin" type="date" class="form-control" />
-                            <span asp-validation-for="Evenement.DateFin" class="text-danger small"></span>
+                        <div class="mb-4">
+                            <label asp-for="Evenement.CategorieId" class="form-label fw-semibold">
+                                <i class="bi bi-tag text-primary"></i> Catégorie
+                            </label>
+                            <select asp-for="Evenement.CategorieId"
+                                    class="form-select form-select-lg"
+                                    asp-items="ViewBag.CategorieId">
+                                <option value="">-- Choisir une catégorie --</option>
+                            </select>
+                            <span asp-validation-for="Evenement.CategorieId" class="text-danger small"></span>
                         </div>
-                    </div>
 
-                    
-                    <div class="mb-4">
-                        <label class="form-label fw-semibold">Image (optionnel)</label>
-                        <input type="file"
-                               name="ImageFile"
-                               class="form-control"
-                               accept=".jpg,.jpeg,.png,.webp" />
-                        <div class="form-text">
-                            Formats acceptés : JPG, PNG, WEBP
+                        <h5 class="fw-bold mt-4 mb-3 text-primary">
+                            <i class="bi bi-geo-alt"></i> Localisation
+                        </h5>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label asp-for="Evenement.Ville" class="form-label fw-semibold"></label>
+                                <input asp-for="Evenement.Ville" class="form-control" placeholder="Ex : Québec" />
+                                <span asp-validation-for="Evenement.Ville" class="text-danger small"></span>
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                <label asp-for="Evenement.CodePostal" class="form-label fw-semibold"></label>
+                                <input asp-for="Evenement.CodePostal" class="form-control" placeholder="Ex : G1V 4T3" />
+                                <span asp-validation-for="Evenement.CodePostal" class="text-danger small"></span>
+                            </div>
                         </div>
+
+                        <div class="mb-4">
+                            <label asp-for="Evenement.Adresse" class="form-label fw-semibold"></label>
+                            <input asp-for="Evenement.Adresse" class="form-control" placeholder="1234 rue Exemple" />
+                            <span asp-validation-for="Evenement.Adresse" class="text-danger small"></span>
+                        </div>
+
+                        <h5 class="fw-bold mt-4 mb-3 text-primary">
+                            <i class="bi bi-calendar-range"></i> Dates
+                        </h5>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label asp-for="Evenement.DateDebut" class="form-label fw-semibold"></label>
+                                <input asp-for="Evenement.DateDebut" type="date" class="form-control" />
+                                <span asp-validation-for="Evenement.DateDebut" class="text-danger small"></span>
+                            </div>
+
+                            <div class="col-md-6 mb-4">
+                                <label asp-for="Evenement.DateFin" class="form-label fw-semibold"></label>
+                                <input asp-for="Evenement.DateFin" type="date" class="form-control" />
+                                <span asp-validation-for="Evenement.DateFin" class="text-danger small"></span>
+                            </div>
+                        </div>
+
+                        <div class="mb-4">
+                            <label class="form-label fw-semibold">
+                                <i class="bi bi-image text-primary"></i> Image (optionnel)
+                            </label>
+                            <input type="file"
+                                   name="ImageFile"
+                                   class="form-control"
+                                   accept=".jpg,.jpeg,.png,.webp" />
+                            <div class="form-text">
+                                Formats acceptés : JPG, PNG, WEBP
+                            </div>
+                        </div>
+
+                        <div class="d-flex justify-content-between mt-4">
+                            <a asp-page="./Index" class="btn btn-outline-secondary">
+                                <i class="bi bi-arrow-left"></i> Retour
+                            </a>
+
+                            <button type="submit" class="btn btn-primary px-4">
+                                <i class="bi bi-check-circle"></i> Créer
+                            </button>
+                        </div>
+
                     </div>
-
-                    
-                    <div class="d-flex gap-2">
-                        <button type="submit" class="btn btn-primary px-4">
-                            Créer
-                        </button>
-
-                        <a asp-page="./Index" class="btn btn-outline-secondary px-4">
-                            Annuler
-                        </a>
-                    </div>
-
                 </div>
-            </div>
-        </form>
 
-</div>
+            </form>
 
-<div>
-    <a class="btn btn-secondary" asp-page="Index">Retour à l'accueil' </a>
+        </div>
+    </div>
+
 </div>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }

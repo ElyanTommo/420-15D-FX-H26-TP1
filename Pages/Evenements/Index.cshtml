@@ -1,94 +1,109 @@
 ﻿@page
 @model _420_15D_FX_H26_TP1.Pages.Evenements.IndexModel
+@using System.Security.Claims
 
 @{
     ViewData["Title"] = "Index";
 }
 
-@* <h1>Évènements à venir/h1>
-
-<p>
-    <a asp-page="Create">Create votre évènement</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Evenement[0].Titre)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Evenement[0].Description)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Evenement[0].Organisateur)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Evenement[0].Categorie)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Evenement[0].Ville)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Evenement[0].Adresse)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Evenement[0].DateDebut)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Evenement[0].DateFin)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Evenement[0].Image)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model.Evenement) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Titre)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Description)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Organisateur.Id)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Categorie.Id)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Ville)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Adresse)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DateDebut)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DateFin)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Image)
-            </td>
-            <td>
-                <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-page="./Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
+@if(TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        @TempData["SuccessMessage"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
 }
-    </tbody>
-</table> *@
-<h1 class="mb-4">Évènements à venir</h1>
 
-<p class="mb-4">
-    <a asp-page="Create" class="btn btn-primary">
-        Créer votre évènement
-    </a>
-</p>
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <h1 class="fw-bold mb-1">
+            <i class="bi bi-calendar-event text-primary"></i>
+            Évènements à venir
+        </h1>
+    </div>
+
+    @if (User.Identity.IsAuthenticated)
+    {
+        <a asp-page="Create" class="btn btn-primary btn-lg shadow-sm">
+            <i class="bi bi-plus-circle me-2"></i>
+            Créer un événement
+        </a>
+    }
+</div>
+
+@if (User.Identity.IsAuthenticated)
+{
+<div class="card shadow border-0 mb-5 rounded-4">
+    <div class="card-body p-4">
+
+        <form method="get">
+
+            <div class="row g-3 align-items-end">
+
+                <div class="col-lg-4 col-md-6">
+                    <label class="form-label fw-semibold">
+                        <i class="bi bi-search text-primary"></i>
+                        Recherche
+                    </label>
+                    <input type="text"
+                           class="form-control"
+                           name="eventRechercher"
+                           value="@Model.eventRechercher"
+                           placeholder="Titre ou description..." />
+                </div>
+
+                <div class="col-lg-3 col-md-6">
+                    <label class="form-label fw-semibold">
+                        <i class="bi bi-funnel text-primary"></i>
+                        Catégorie
+                    </label>
+                    <select class="form-select"
+                            name="CategorieId"
+                            asp-items="Model.Categories">
+                        <option value="">Toutes</option>
+                    </select>
+                </div>
+
+                <div class="col-lg-2 col-md-6">
+                    <label class="form-label fw-semibold">
+                        <i class="bi bi-calendar-event text-primary"></i>
+                        Début
+                    </label>
+                    <input type="date"
+                           class="form-control"
+                           name="dateDebut"
+                           value="@Model.dateDebut?.ToString("yyyy-MM-dd")" />
+                </div>
+
+                <div class="col-lg-2 col-md-6">
+                    <label class="form-label fw-semibold">
+                        <i class="bi bi-calendar-x text-primary"></i>
+                        Fin
+                    </label>
+                    <input type="date"
+                           class="form-control"
+                           name="dateFin"
+                           value="@Model.dateFin?.ToString("yyyy-MM-dd")" />
+                </div>
+
+                <div class="col-lg-1 d-grid gap-2">
+                    <button type="submit" class="btn btn-primary">
+                        <i class="bi bi-search"></i>
+                    </button>
+
+                    <a asp-page="./Index" class="btn btn-outline-secondary">
+                        <i class="bi bi-x-lg"></i>
+                    </a>
+                </div>
+
+            </div>
+
+        </form>
+    </div>
+</div>
+}
+
+
 
 @if (Model.Evenement == null || !Model.Evenement.Any())
 {
@@ -121,7 +136,15 @@ else
 
                     <div class="card-body d-flex flex-column">
                         <h5 class="card-title">@eve.Titre</h5>
+                        @if (eve.Categorie != null)
+                        {
+                            <span class="position-absolute top-0 end-0 m-3 badge bg-primary fs-6 shadow">
+                                @eve.Categorie.Nom
+                            </span>
+                        }
+                    </div>
 
+                    <div class="card-body d-flex flex-column">
                         <p class="card-text text-muted">
                             @eve.Description
                         </p>
@@ -140,32 +163,38 @@ else
                         </p>
 
                         <p class="mb-1">
-                            <strong>Début :</strong> @eve.DateDebut.ToString("yyyy-MM-dd HH:mm")
+                            <strong>Début :</strong> @eve.DateDebut.ToString("yyyy-MM-dd")
                         </p>
 
                         <p class="mb-3">
-                            <strong>Fin :</strong> @eve.DateFin.ToString("yyyy-MM-dd HH:mm")
+                            <strong>Fin :</strong> @eve.DateFin.ToString("yyyy-MM-dd")
                         </p>
+                        @if (User.Identity.IsAuthenticated 
+                                        && User.FindFirstValue(ClaimTypes.NameIdentifier) == eve.OrganisateurId)
+                        {
+                            <div class="mt-auto d-flex gap-2">
+                                <a asp-page="./Edit"
+                                   asp-route-id="@eve.Id"
+                                   class="btn btn-outline-primary w-30">
+                                    Modifier
+                                </a>
 
+                                <a asp-page="./Delete"
+                                   asp-route-id="@eve.Id"
+                                   class="btn btn-outline-danger w-30">
+                                    Supprimer
+                                </a>
+                            </div>
+                            
+                        }
                         <div class="mt-auto d-flex gap-2">
                             <a asp-page="./Details"
                                asp-route-id="@eve.Id"
-                               class="btn btn-outline-secondary w-100">
+                               class="btn btn-outline-secondary w-30">
                                 Détails
                             </a>
-
-                            <a asp-page="./Edit"
-                               asp-route-id="@eve.Id"
-                               class="btn btn-outline-primary w-100">
-                                Modifier
-                            </a>
-
-                            <a asp-page="./Delete"
-                               asp-route-id="@eve.Id"
-                               class="btn btn-outline-danger w-100">
-                                Supprimer
-                            </a>
                         </div>
+                      
                     </div>
 
                 </div>

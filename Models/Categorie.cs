@@ -10,6 +10,8 @@ namespace _420_15D_FX_H26_TP1.Models
         [Required(ErrorMessage = "Le nom est obligatoire.")]
         [StringLength(25, ErrorMessage = "Le nom ne peut pas dépasser 25 caractères.")]
         public string? Nom { get; set; }
+
+        public bool EstArchive { get; set; } = false;
         public List<Evenement> Evenements { get; set; } = new();
     }
 }

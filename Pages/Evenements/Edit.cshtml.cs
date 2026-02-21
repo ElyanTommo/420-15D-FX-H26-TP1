@@ -46,6 +46,7 @@ namespace _420_15D_FX_H26_TP1.Pages.Evenements
             .Include(e =>e.Categorie)
             .Include(e =>e.Organisateur)
             .FirstOrDefaultAsync(m => m.Id == id);
+
             if (evenement == null)
             {
                 return NotFound();
@@ -61,7 +62,13 @@ namespace _420_15D_FX_H26_TP1.Pages.Evenements
 
            Evenement = evenement;
             ImageActuelle = evenement.Image;
-           ViewData["CategorieId"] = new SelectList(_context.Categories, "Id", "Nom",evenement.CategorieId);
+           ViewData["CategorieId"] = new SelectList( await _context.Categories
+               .Where(c => !c.EstArchive)
+               .OrderBy(c => c.Nom)
+               .ToListAsync(),
+                "Id",
+                "Nom",
+               evenement.CategorieId);
            ViewData["NomOrganisateur"] = $"{evenement.Organisateur?.Nom}";
            return Page();
         }
@@ -71,10 +78,21 @@ namespace _420_15D_FX_H26_TP1.Pages.Evenements
         // For more information, see https://aka.ms/RazorPagesCRUD.
         public async Task<IActionResult> OnPostAsync()
         {
+            ModelState.Remove("Evenement.Organisateur");
+            ModelState.Remove("Evenement.Categorie");
+            ModelState.Remove("Evenement.Participations");
+            ModelState.Remove("Evenement.Image");
+            ModelState.Remove("ImageActuelle");
+
             if (!ModelState.IsValid)
             {
+                await RechargerViewData();
                 return Page();
             }
+
+
+
+
             var evenementExistant = await _context.Evenements
                .Include(e => e.Organisateur)
                .FirstOrDefaultAsync(e => e.Id == Evenement.Id);
@@ -83,9 +101,13 @@ namespace _420_15D_FX_H26_TP1.Pages.Evenements
                 return NotFound();
             }
             var userconnecter = await _userManager.GetUserAsync(User);
+            if (userconnecter == null) 
+            {
+                return RedirectToPage("/Account/Login");
+            }
             if (userconnecter.Id != evenementExistant.OrganisateurId)
             {
-                TempData["ErrorMessage"] = "Vous n'êtes pas l'organisateur de cet évènement";
+                TempData["Erreur"] = "Vous n'êtes pas l'organisateur de cet évènement";
                 return RedirectToPage("./Index");
             }
 
@@ -124,7 +146,7 @@ namespace _420_15D_FX_H26_TP1.Pages.Evenements
             try
             {
                 await _context.SaveChangesAsync();
-                TempData["MessageSuccès"] = "L'évènement a été modifié avec succès!";
+                TempData["SuccessMessage"] = "L'évènement a été modifié avec succès!";
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -144,7 +166,7 @@ namespace _420_15D_FX_H26_TP1.Pages.Evenements
         private async Task RechargerViewData()
         {
             ViewData["CategorieId"] = new SelectList(
-                await _context.Categories.ToListAsync(),
+                await _context.Categories.Where(c => !c.EstArchive).ToListAsync(),
                 "Id",
                 "Nom",
                 Evenement.CategorieId);

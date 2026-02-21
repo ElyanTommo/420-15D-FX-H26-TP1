@@ -1,34 +1,70 @@
-﻿@page
+﻿
+@page
 @model _420_15D_FX_H26_TP1.Areas.Admin.Pages.Categories.CreateModel
 
-        @{
-        ViewData["Title"] = "Create";
-        }
-        
-        <h1>Create</h1>
-        
-    <h4>Categorie</h4>
-    <hr />
-    <div class="row">
-    <div class="col-md-4">
-    <form method="post">
-    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Categorie.Nom" class="control-label"></label>
-                <input asp-for="Categorie.Nom" class="form-control" />
-                <span asp-validation-for="Categorie.Nom" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form>
-    </div>
-</div>
+@{
+    ViewData["Title"] = "Créer une catégorie";
+}
 
-<div>
-    <a asp-page="Index">Back to List</a>
+<div class="container py-4">
+
+    <div class="mb-4">
+        <h1 class="fw-bold mb-1">Créer une catégorie</h1>
+        <p class="text-muted mb-0">Ajoute une nouvelle catégorie à la liste</p>
+    </div>
+    @if (TempData["smsSucces"] != null)
+    {
+        <div class="alert alert-success">
+            @TempData["smsSucces"]
+        </div>
+    }
+
+    <div class="row justify-content-center">
+        <div class="col-12 col-md-8 col-lg-6">
+
+            <div class="card shadow-sm border-0">
+                <div class="card-body p-4">
+                  
+                
+                    <form method="post">
+                        <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
+
+                        <div class="mb-3">
+                            <label asp-for="Categorie.Nom" class="form-label fw-semibold"></label>
+                            <input asp-for="Categorie.Nom" class="form-control form-control-lg"
+                                   placeholder="Ex: Sport, Musique, Conférence..." />
+                            <span asp-validation-for="Categorie.Nom" class="text-danger small"></span>
+                        </div>
+
+                        <div class="d-flex gap-2 mt-4">
+                            <button type="submit" class="btn btn-primary btn-lg shadow-sm">
+                                <i class="bi bi-check-circle me-2"></i>
+                                Créer
+                            </button>
+
+                            <a asp-page="Index" class="btn btn-outline-secondary btn-lg">
+                                <i class="bi bi-arrow-left me-2"></i>
+                                Retour
+                            </a>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+
+            <div class="text-center mt-3">
+                <a asp-page="Index" class="text-decoration-none">
+                    ← Retour à la liste des catégories
+                </a>
+            </div>
+
+        </div>
+    </div>
+
 </div>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }

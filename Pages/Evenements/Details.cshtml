@@ -6,8 +6,170 @@
 }
 
 <h1>Details</h1>
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
 
-<div>
+            <div class="mb-4">
+                <a asp-page="./Index" class="btn btn-outline-secondary">
+                    <i class="bi bi-arrow-left"></i> Retour à la liste
+                </a>
+            </div>
+
+            <div class="text-center mb-4">
+                <h1 class="display-5 fw-bold">@Model.Evenement.Titre</h1>
+                @if (Model.Evenement.Categorie != null)
+                {
+                    <span class="badge bg-primary fs-5 mt-2">
+                        <i class="bi bi-tag"></i> @Model.Evenement.Categorie.Nom
+                    </span>
+                }
+            </div>
+
+            @if (!string.IsNullOrEmpty(Model.Evenement.Image))
+            {
+                <div class="mb-4">
+                    <img src="@Model.ImagePath@Model.Evenement.Image"
+                         alt="@Model.Evenement.Titre"
+                         class="img-fluid w-100 rounded shadow"
+                         style="max-height: 400px; object-fit: cover;" />
+                </div>
+            }
+
+            <div class="card shadow-lg border-0 mb-4">
+                <div class="card-body p-4 p-md-5">
+
+                    <div class="mb-4">
+                        <h5 class="fw-bold text-secondary mb-3">
+                            <i class="bi bi-card-text"></i> Description
+                        </h5>
+                        <p class="lead">@Model.Evenement.Description</p>
+                    </div>
+
+                    <hr class="my-4">
+
+                    <div class="row g-4">
+
+                        <div class="col-md-6">
+                            <div class="d-flex align-items-start">
+                                <i class="bi bi-calendar-event text-primary me-3 fs-3"></i>
+                                <div>
+                                    <h6 class="fw-bold mb-2">Période</h6>
+                                    <p class="mb-1">
+                                        <strong>Début :</strong> @Model.Evenement.DateDebut.ToString("dd MMMM yyyy")
+                                    </p>
+                                    <p class="mb-0">
+                                        <strong>Fin :</strong> @Model.Evenement.DateFin.ToString("dd MMMM yyyy")
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="d-flex align-items-start">
+                                <i class="bi bi-geo-alt-fill text-danger me-3 fs-3"></i>
+                                <div>
+                                    <h6 class="fw-bold mb-2">Lieu</h6>
+                                    <p class="mb-1">
+                                        <strong>Ville :</strong> @Model.Evenement.Ville
+                                    </p>
+                                    <p class="mb-1">
+                                        <strong>Code postal :</strong> @Model.Evenement.CodePostal
+                                    </p>
+                                    <p class="mb-0">
+                                        <strong>Adresse :</strong> @Model.Evenement.Adresse
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="d-flex align-items-start">
+                                <i class="bi bi-person-circle text-success me-3 fs-3"></i>
+                                <div>
+                                    <h6 class="fw-bold mb-2">Organisateur</h6>
+                                    @if (Model.Evenement.Organisateur != null)
+                                    {
+                                        <p class="mb-1">
+                                            <strong>Nom :</strong> @Model.Evenement.Organisateur.Prenom @Model.Evenement.Organisateur.Nom
+                                        </p>
+                                       @*  <p class="mb-0">
+                                            <strong>Email :</strong> @Model.Evenement.Organisateur.Email
+                                        </p> *@
+                                    }
+                                    
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="d-flex align-items-start">
+                                <i class="bi bi-people-fill text-info me-3 fs-3"></i>
+                                <div>
+                                    <h6 class="fw-bold mb-2">Participation</h6>
+                                    <span class="badge bg-info fs-5">
+                                        @Model.Evenement.Participations.Count participant(s)
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+
+            @if (User.Identity?.IsAuthenticated == true)
+            {
+                var currentUserId = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
+
+                @if (currentUserId == Model.Evenement.OrganisateurId)
+                {
+                    <div class="d-flex gap-3 justify-content-center mb-4">
+                        <a asp-page="./Edit" asp-route-id="@Model.Evenement.Id" class="btn btn-warning btn-lg px-5 shadow">
+                            <i class="bi bi-pencil-fill"></i> Modifier
+                        </a>
+                        <a asp-page="./Delete" asp-route-id="@Model.Evenement.Id" class="btn btn-danger btn-lg px-5 shadow">
+                            <i class="bi bi-archive-fill"></i> Archiver
+                        </a>
+                    </div>
+                }
+                @if (User.Identity?.IsAuthenticated == true)
+                {
+                    var UserId = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
+                    var estInscrit = Model.Evenement.Participations.Any(p => p.UtilisateurId == UserId);
+                    var estOrganisateur = UserId == Model.Evenement.OrganisateurId;
+
+                    @if (!estOrganisateur)
+                    {
+                        <div class="text-center mb-4">
+                            @if (estInscrit)
+                            {
+                                <form method="post" asp-page-handler="Desinscription" asp-route-id="@Model.Evenement.Id">
+                                    <button type="submit" class="btn btn-danger btn-lg px-5 shadow">
+                                        <i class="bi bi-x-circle"></i> Se désinscrire
+                                    </button>
+                                </form>
+                            }
+                            else
+                            {
+                                <form method="post" asp-page-handler="Inscription" asp-route-id="@Model.Evenement.Id">
+                                    <button type="submit" class="btn btn-success btn-lg px-5 shadow">
+                                        <i class="bi bi-check-circle"></i> S'inscrire à cet événement
+                                    </button>
+                                </form>
+                            }
+                        </div>
+                    }
+                }
+
+            }
+
+        </div>
+    </div>
+</div>
+
+@* <div>
     <h4>Evenement</h4>
     <hr />
     <dl class="row">
@@ -24,13 +186,13 @@
             @Html.DisplayFor(model => model.Evenement.Description)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Evenement.Organisateur)
+            @Html.DisplayNameFor(model => model.Evenement.Organisateur.Nom)
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Evenement.Organisateur.Id)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Evenement.Categorie)
+            @Html.DisplayNameFor(model => model.Evenement.Categorie.Nom)
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Evenement.Categorie.Id)
@@ -63,11 +225,19 @@
             @Html.DisplayNameFor(model => model.Evenement.Image)
         </dt>
         <dd class="col-sm-10">
+            <p>Nombre de participants :</p>
+        </dd>
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Evenement.Image)
         </dd>
     </dl>
-</div>
-<div>
-    <a asp-page="./Edit" asp-route-id="@Model.Evenement.Id">Edit</a> |
-    <a asp-page="./Index">Back to List</a>
-</div>
+</div> *@
+@* <div>
+    <a class="btn btn-outline-primary w-20" asp-page="./Edit" asp-route-id="@Model.Evenement.Id">Modifier</a> |
+    <a asp-page="./Delete"
+       asp-route-id="@Model.Evenement.Id" .Id"
+       class="btn btn-outline-danger w-20">
+        Supprimer
+    </a>
+    <a class="btn btn-outline-secondary w-20" asp-page="./Index">Retour à la liste</a>
+</div> *@
