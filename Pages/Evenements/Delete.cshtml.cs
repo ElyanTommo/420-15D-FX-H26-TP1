@@ -39,12 +39,12 @@ namespace _420_15D_FX_H26_TP1.Pages.Evenements
             var evenement = await _context.Evenements
                 .Include(e => e.Categorie)
                 .Include(e => e.Organisateur)
+                .Include(e => e.Participations)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (evenement == null) 
             { 
                 return NotFound();
             }
-
             var userConnecter = await _userManager.GetUserAsync(User);
             if (userConnecter.Id != evenement.OrganisateurId)
             {

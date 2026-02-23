@@ -53,7 +53,7 @@ namespace _420_15D_FX_H26_TP1.Pages.Evenements
             }
 
             var userconnecter = await _userManager.GetUserAsync(User);
-            if(userconnecter.Id != evenement.OrganisateurId)
+            if(userconnecter == null || userconnecter.Id != evenement.OrganisateurId)
             {
                 TempData["ErrorMessage"] = "Vous n'êtes pas l'organisateur de cet évènement";
                 return RedirectToPage("./Index");
@@ -81,16 +81,12 @@ namespace _420_15D_FX_H26_TP1.Pages.Evenements
             ModelState.Remove("Evenement.Organisateur");
             ModelState.Remove("Evenement.Categorie");
             ModelState.Remove("Evenement.Participations");
-            ModelState.Remove("Evenement.Image");
-            ModelState.Remove("ImageActuelle");
 
             if (!ModelState.IsValid)
             {
                 await RechargerViewData();
                 return Page();
             }
-
-
 
 
             var evenementExistant = await _context.Evenements
@@ -107,7 +103,7 @@ namespace _420_15D_FX_H26_TP1.Pages.Evenements
             }
             if (userconnecter.Id != evenementExistant.OrganisateurId)
             {
-                TempData["Erreur"] = "Vous n'êtes pas l'organisateur de cet évènement";
+                TempData["ErrorMessage"] = "Vous n'êtes pas l'organisateur de cet évènement";
                 return RedirectToPage("./Index");
             }
 

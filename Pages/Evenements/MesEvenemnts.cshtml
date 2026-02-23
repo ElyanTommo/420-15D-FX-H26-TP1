@@ -34,10 +34,11 @@
         </div>
     }
 
+   
     <div class="mb-5">
         <div class="d-flex align-items-center mb-3">
             <i class="bi bi-calendar-plus text-success me-2 fs-3"></i>
-            <h2 class="mb-0">Événements que j'organise</h2>
+            <h2 class="mb-0">Événements organisés</h2>
             <span class="badge bg-success ms-3 fs-6">@Model.EvenementsOrganises.Count</span>
         </div>
 
@@ -45,7 +46,7 @@
         {
             <div class="alert alert-light border">
                 <i class="bi bi-info-circle text-muted"></i>
-                Vous n'avez créé aucun événement pour le moment.
+                Vous n'avez créé aucun événement actif.
                 <a asp-page="./Create" class="alert-link">Créer mon premier événement</a>
             </div>
         }
@@ -114,7 +115,7 @@
                                             <i class="bi bi-pencil"></i> Modifier
                                         </a>
                                         <a asp-page="./Delete" asp-route-id="@eve.Id" class="btn btn-sm btn-outline-danger">
-                                            <i class="bi bi-archive"></i> Supprimer
+                                            <i class="bi bi-archive"></i> Archiver
                                         </a>
                                     </div>
                                 </div>
@@ -128,6 +129,7 @@
 
     <hr class="my-5">
 
+   
     <div class="mb-5">
         <div class="d-flex align-items-center mb-3">
             <i class="bi bi-ticket-perforated text-primary me-2 fs-3"></i>
@@ -139,7 +141,7 @@
         {
             <div class="alert alert-light border">
                 <i class="bi bi-info-circle text-muted"></i>
-                Vous n'êtes inscrit à aucun événement pour le moment.
+                Vous n'êtes inscrit à aucun événement.
                 <a asp-page="./Index" class="alert-link">Découvrir les événements</a>
             </div>
         }
@@ -219,5 +221,87 @@
         }
     </div>
 
-</div>
+    <hr class="my-5">
 
+ 
+    <div class="mb-5">
+        <div class="d-flex align-items-center mb-3">
+            <i class="bi bi-archive text-secondary me-2 fs-3"></i>
+            <h2 class="mb-0">Mes évènements supprimés</h2>
+            <span class="badge bg-secondary ms-3 fs-6">@Model.EvenementsArchives.Count</span>
+        </div>
+
+        @if (!Model.EvenementsArchives.Any())
+        {
+            <div class="alert alert-light border">
+                <i class="bi bi-info-circle text-muted"></i>
+                Aucun événement archivé.
+            </div>
+        }
+        else
+        {
+            <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+                @foreach (var eve in Model.EvenementsArchives)
+                {
+                    <div class="col">
+                        <div class="card h-100 shadow-sm border-0 opacity-75">
+                            <div class="position-relative overflow-hidden">
+                                @if (!string.IsNullOrEmpty(eve.Image))
+                                {
+                                    <img src="@Model.ImagePath@eve.Image"
+                                         class="card-img-top"
+                                         alt="@eve.Titre"
+                                         style="height: 180px; object-fit: cover; filter: grayscale(50%);" />
+                                }
+                                else
+                                {
+                                    <div class="card-img-top d-flex align-items-center justify-content-center"
+                                         style="height: 180px; background: linear-gradient(135deg, #999 0%, #666 100%);">
+                                        <i class="bi bi-calendar-event text-white" style="font-size: 3rem; opacity: 0.7;"></i>
+                                    </div>
+                                }
+
+                                <span class="position-absolute top-0 start-0 m-2 badge bg-secondary">
+                                    <i class="bi bi-archive"></i> Archivé
+                                </span>
+
+                                @if (eve.Categorie != null)
+                                {
+                                    <span class="position-absolute top-0 end-0 m-2 badge bg-dark">
+                                        @eve.Categorie.Nom
+                                    </span>
+                                }
+                            </div>
+
+                            <div class="card-body">
+                                <h5 class="card-title fw-bold">@eve.Titre</h5>
+                                <p class="card-text text-muted small">
+                                    @(eve.Description.Length > 80 ? eve.Description.Substring(0, 80) + "..." : eve.Description)
+                                </p>
+
+                                <div class="mb-2">
+                                    <small><i class="bi bi-calendar-event text-muted"></i> @eve.DateDebut.ToString("dd/MM/yyyy")</small>
+                                </div>
+
+                                <div class="mb-2">
+                                    <span class="badge bg-secondary">
+                                        <i class="bi bi-people-fill"></i> @eve.Participations.Count participant(s)
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div class="card-footer bg-white">
+                                <a asp-page="./Details" asp-route-id="@eve.Id" class="btn btn-sm btn-outline-secondary w-100">
+                                    <i class="bi bi-eye"></i> Voir les détails
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        }
+    </div>
+    <hr class="my-5">
+
+ 
+   

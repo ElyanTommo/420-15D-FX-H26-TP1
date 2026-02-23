@@ -1,5 +1,6 @@
 ﻿using _420_15D_FX_H26_TP1.Data;
 using _420_15D_FX_H26_TP1.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -15,17 +16,20 @@ namespace _420_15D_FX_H26_TP1.Pages.Evenements
     {
         private readonly _420_15D_FX_H26_TP1.Data.ApplicationDbContext _context;
         private readonly IConfiguration _configuration;
+        private readonly UserManager<Utilisateur> _userManager;
 
 
 
-        public IndexModel(_420_15D_FX_H26_TP1.Data.ApplicationDbContext context, IConfiguration configuration)
+        public IndexModel(_420_15D_FX_H26_TP1.Data.ApplicationDbContext context, IConfiguration configuration, UserManager<Utilisateur> userManager)
         {
             _context = context;
             _configuration = configuration;
+            _userManager = userManager;
         }
 
         public IList<Evenement> Evenement { get;set; } = default!;
         public string ImagePath { get; set; } = string.Empty;
+        public string? userIdCourant { get; set; }
 
 
         public string? eventRechercher { get; set; }
@@ -106,6 +110,11 @@ namespace _420_15D_FX_H26_TP1.Pages.Evenements
             }
 
             Evenement = lesEvenements;
+            if (User.Identity.IsAuthenticated)
+            {
+                var user = await _userManager.GetUserAsync(User);
+                userIdCourant = user?.Id;
+            }
 
             ImagePath = _configuration["Images:PublicUrl"] ?? "/uploads/events/";
         }

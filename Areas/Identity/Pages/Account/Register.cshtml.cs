@@ -76,6 +76,8 @@ namespace _420_15D_FX_H26_TP1.Areas.Identity.Pages.Account
             [Display(Name = "Nom d'utilisateur")]
             public string NomUtilisateur { get; set; }
 
+            [Required(ErrorMessage = "Le prénom  est requis")]
+            [StringLength(100, ErrorMessage = "Le {0} doit contenir au moins {2} et au maximum {1} caractères.", MinimumLength = 3)]
             [Display(Name = "Prénom")]
             public string? Prenom { get; set; }
 
@@ -105,8 +107,8 @@ namespace _420_15D_FX_H26_TP1.Areas.Identity.Pages.Account
             ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
             ///     directly from your code. This API may change or be removed in future releases.
             /// </summary>
-            [Required]
-            [EmailAddress]
+            [Required(ErrorMessage = "Le courriel est obligatoire.")]
+            [EmailAddress(ErrorMessage = "Adresse courriel invalide.")]
             [Display(Name = "Email")]
             public string Email { get; set; }
 
@@ -114,8 +116,8 @@ namespace _420_15D_FX_H26_TP1.Areas.Identity.Pages.Account
             ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
             ///     directly from your code. This API may change or be removed in future releases.
             /// </summary>
-            [Required]
-            [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
+            [Required(ErrorMessage = "Le mot de passe est obligatoire.")]
+            [StringLength(100, ErrorMessage = "Le {0} doit contenir au moins {2} et au max {1} caratères.", MinimumLength = 6)]
             [DataType(DataType.Password)]
             [Display(Name = "Password")]
             public string Password { get; set; }
@@ -125,8 +127,8 @@ namespace _420_15D_FX_H26_TP1.Areas.Identity.Pages.Account
             ///     directly from your code. This API may change or be removed in future releases.
             /// </summary>
             [DataType(DataType.Password)]
-            [Display(Name = "Confirm password")]
-            [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
+            [Display(Name = "Confirmer le mot de passe")]
+            [Compare("Password", ErrorMessage = "Les mots de passe ne correspondent pas.\"")]
             public string ConfirmPassword { get; set; }
         }
 

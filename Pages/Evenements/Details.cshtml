@@ -93,9 +93,7 @@
                                         <p class="mb-1">
                                             <strong>Nom :</strong> @Model.Evenement.Organisateur.Prenom @Model.Evenement.Organisateur.Nom
                                         </p>
-                                       @*  <p class="mb-0">
-                                            <strong>Email :</strong> @Model.Evenement.Organisateur.Email
-                                        </p> *@
+                                      
                                     }
                                     
                                 </div>
@@ -119,9 +117,9 @@
                 </div>
             </div>
 
-            @if (User.Identity?.IsAuthenticated == true)
+            @if (User.Identity.IsAuthenticated)
             {
-                var currentUserId = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
+                var currentUserId = Model.userIdCourant;
 
                 @if (currentUserId == Model.Evenement.OrganisateurId)
                 {
@@ -134,9 +132,9 @@
                         </a>
                     </div>
                 }
-                @if (User.Identity?.IsAuthenticated == true)
+                @if (User.Identity.IsAuthenticated)
                 {
-                    var UserId = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
+                    var UserId = Model.userIdCourant;
                     var estInscrit = Model.Evenement.Participations.Any(p => p.UtilisateurId == UserId);
                     var estOrganisateur = UserId == Model.Evenement.OrganisateurId;
 
@@ -169,75 +167,3 @@
     </div>
 </div>
 
-@* <div>
-    <h4>Evenement</h4>
-    <hr />
-    <dl class="row">
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Evenement.Titre)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Evenement.Titre)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Evenement.Description)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Evenement.Description)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Evenement.Organisateur.Nom)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Evenement.Organisateur.Id)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Evenement.Categorie.Nom)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Evenement.Categorie.Id)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Evenement.Ville)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Evenement.Ville)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Evenement.Adresse)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Evenement.Adresse)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Evenement.DateDebut)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Evenement.DateDebut)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Evenement.DateFin)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Evenement.DateFin)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Evenement.Image)
-        </dt>
-        <dd class="col-sm-10">
-            <p>Nombre de participants :</p>
-        </dd>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Evenement.Image)
-        </dd>
-    </dl>
-</div> *@
-@* <div>
-    <a class="btn btn-outline-primary w-20" asp-page="./Edit" asp-route-id="@Model.Evenement.Id">Modifier</a> |
-    <a asp-page="./Delete"
-       asp-route-id="@Model.Evenement.Id" .Id"
-       class="btn btn-outline-danger w-20">
-        Supprimer
-    </a>
-    <a class="btn btn-outline-secondary w-20" asp-page="./Index">Retour à la liste</a>
-</div> *@

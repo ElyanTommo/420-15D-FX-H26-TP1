@@ -26,6 +26,8 @@ namespace _420_15D_FX_H26_TP1.Pages.Evenements
 
         public Evenement Evenement { get; set; } = default!;
         int nbParticipants;
+        public string? userIdCourant { get; set; }
+
         public string ImagePath { get; set; }
         public async Task<IActionResult> OnGetAsync(int? id)
         {
@@ -62,6 +64,11 @@ namespace _420_15D_FX_H26_TP1.Pages.Evenements
             var user = await _userManager.GetUserAsync(User);
             if (user == null)
                 return RedirectToPage("/Account/Login");
+            if (User.Identity.IsAuthenticated)
+            {
+                var userCourant = await _userManager.GetUserAsync(User);
+                userIdCourant = userCourant?.Id;
+            }
 
             var evenement = await _context.Evenements
                 .Include(e => e.Participations)
@@ -72,7 +79,7 @@ namespace _420_15D_FX_H26_TP1.Pages.Evenements
             if (evenement.OrganisateurId == user.Id)
             {
                 TempData["ErrorMessage"] = "Vous ne pouvez pas vous inscrire à votre propre événement.";
-                return RedirectToPage(new { id });
+                return RedirectToPage("./Index");
             }
 
             var dejaInscrit = evenement.Participations
@@ -81,7 +88,7 @@ namespace _420_15D_FX_H26_TP1.Pages.Evenements
             if (dejaInscrit)
             {
                 TempData["ErrorMessage"] = "Vous êtes déjà inscrit à cet événement.";
-                return RedirectToPage(new { id });
+                return RedirectToPage("./Index");
             }
 
             var participation = new Participation
@@ -95,7 +102,7 @@ namespace _420_15D_FX_H26_TP1.Pages.Evenements
             await _context.SaveChangesAsync();
 
             TempData["SuccessMessage"] = "Vous êtes maintenant inscrit à cet événement!";
-            return RedirectToPage(new { id });
+            return RedirectToPage("./Index");
         }
 
         [Authorize]
@@ -106,6 +113,11 @@ namespace _420_15D_FX_H26_TP1.Pages.Evenements
             var user = await _userManager.GetUserAsync(User);
             if (user == null)
                 return RedirectToPage("/Account/Login");
+            if (User.Identity.IsAuthenticated)
+            {
+                var userInscrit = await _userManager.GetUserAsync(User);
+                userIdCourant = userInscrit?.Id;
+            }
 
             var participation = await _context.Participations
                 .FirstOrDefaultAsync(p => p.EvenementId == id && p.UtilisateurId == user.Id);
@@ -113,14 +125,14 @@ namespace _420_15D_FX_H26_TP1.Pages.Evenements
             if (participation == null)
             {
                 TempData["ErrorMessage"] = "Vous n'êtes pas inscrit à cet événement.";
-                return RedirectToPage(new { id });
+                return RedirectToPage("./Index");
             }
 
             _context.Participations.Remove(participation);
             await _context.SaveChangesAsync();
 
             TempData["SuccessMessage"] = "Vous vous êtes désinscrit de cet événement.";
-            return RedirectToPage(new { id });
+            return RedirectToPage("./Index");
         }
     }
 }

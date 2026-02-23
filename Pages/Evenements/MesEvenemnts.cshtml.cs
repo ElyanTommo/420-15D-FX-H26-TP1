@@ -24,6 +24,9 @@ namespace _420_15D_FX_H26_TP1.Pages.Evenements
 
         public IList<Evenement> EvenementsOrganises { get; set; } = new List<Evenement>();
         public IList<Participation> MesParticipations { get; set; } = new List<Participation>();
+
+        public IList<Evenement> EvenementsArchives { get; set; } = new List<Evenement>();
+        public IList<Participation> ParticipationsPassees { get; set; } = new List<Participation>();
         public string ImagePath { get; set; }
         public string NomUtilisateur { get; set; }
 
@@ -42,6 +45,13 @@ namespace _420_15D_FX_H26_TP1.Pages.Evenements
                 .OrderByDescending(e => e.DateDebut)
                 .ToListAsync();
 
+            EvenementsArchives = await _context.Evenements
+            .Where(e => e.OrganisateurId == user.Id && e.EstArchive)
+            .Include(e => e.Categorie)
+            .Include(e => e.Participations)
+            .OrderByDescending(e => e.DateDebut)
+            .ToListAsync();
+
             MesParticipations = await _context.Participations
                 .Where(p => p.UtilisateurId == user.Id && !p.Evenement.EstArchive)
                 .Include(p => p.Evenement)
@@ -50,6 +60,8 @@ namespace _420_15D_FX_H26_TP1.Pages.Evenements
                     .ThenInclude(e => e.Organisateur)
                 .OrderByDescending(p => p.Evenement.DateDebut)
                 .ToListAsync();
+
+    
 
             ImagePath = _configuration["Images:PublicUrl"] ?? "/uploads/evenements/";
 

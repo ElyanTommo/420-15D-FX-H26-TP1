@@ -1,4 +1,5 @@
 using _420_15D_FX_H26_TP1.Data;
+using _420_15D_FX_H26_TP1.Identity;
 using _420_15D_FX_H26_TP1.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -9,12 +10,14 @@ var builder = WebApplication.CreateBuilder(args);
 // Ajoute ASP.NET Identity (utilisateurs + r�les)
 builder.Services.AddDefaultIdentity<Utilisateur>(options =>
 {
-    options.Password.RequireDigit = true;          
-    options.Password.RequiredLength = 6;           
-    options.Password.RequireUppercase = false;    
+    //options.Password.RequireDigit = true;
+    //options.Password.RequiredLength = 6;
+    //options.Password.RequireUppercase = false;
+    options.SignIn.RequireConfirmedAccount = false;
 })
 .AddRoles<IdentityRole>()
-.AddEntityFrameworkStores<ApplicationDbContext>();
+.AddEntityFrameworkStores<ApplicationDbContext>()
+.AddErrorDescriber<CustomIdentityErrorDescriber>();
 
 
 builder.Services.AddAuthorization(options =>
@@ -57,16 +60,18 @@ using (var scope = app.Services.CreateScope())
 
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
+if (!app.Environment.IsDevelopment())
 {
-    app.UseMigrationsEndPoint();
+    //app.UseMigrationsEndPoint();
+    app.UseExceptionHandler("/Error/500");   
+    app.UseStatusCodePagesWithReExecute("/Error/{0}");
 }
-else
-{
-    app.UseExceptionHandler("/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-    app.UseHsts();
-}
+//else
+//{
+//    app.UseExceptionHandler("/Error");
+//    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+//    app.UseHsts();
+//}
 
 app.UseHttpsRedirection();
 

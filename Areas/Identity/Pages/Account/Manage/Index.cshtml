@@ -12,15 +12,75 @@
         <form id="profile-form" method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
             <div class="form-floating mb-3">
-                <input asp-for="Username" class="form-control" placeholder="Veuillez choisir votre nom d'utilisateur." disabled />
+                @* <input asp-for="Username" class="form-control" placeholder="Veuillez choisir votre nom d'utilisateur." disabled /> *@
+                <input value="@Model.Username" class="form-control bg-light" disabled readonly />
                 <label asp-for="Username" class="form-label"></label>
             </div>
-            <div class="form-floating mb-3">
-                <input asp-for="Input.PhoneNumber" class="form-control" placeholder="Veuillez saisir votre numéro de téléphone." />
-                <label asp-for="Input.PhoneNumber" class="form-label"></label>
-                <span asp-validation-for="Input.PhoneNumber" class="text-danger"></span>
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label asp-for="Input.Prenom" class="form-label fw-semibold">
+                        <i class="bi bi-person text-primary"></i> Prénom
+                    </label>
+                    <input asp-for="Input.Prenom" class="form-control" placeholder="Jean" />
+                    <span asp-validation-for="Input.Prenom" class="text-danger small"></span>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label asp-for="Input.Nom" class="form-label fw-semibold">
+                        <i class="bi bi-person text-primary"></i> Nom
+                    </label>
+                    <input asp-for="Input.Nom" class="form-control" placeholder="Dupont" />
+                    <span asp-validation-for="Input.Nom" class="text-danger small"></span>
+                </div>
             </div>
-            <button id="update-profile-button" type="submit" class="w-100 btn btn-lg btn-primary">Sauvegarder</button>
+
+            <div class="mb-3">
+                <label asp-for="Input.NomUtilisateur" class="form-label fw-semibold">
+                    <i class="bi bi-at text-primary"></i> Nom d'utilisateur
+                </label>
+                <input asp-for="Input.NomUtilisateur" class="form-control" placeholder="jean_dupont" />
+                <span asp-validation-for="Input.NomUtilisateur" class="text-danger small"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Username" class="form-label fw-semibold">
+                    <i class="bi bi-envelope text-primary"></i> Courriel
+                </label>
+                <input asp-for="Username" class="form-control bg-light" disabled />
+                <div class="form-text">
+                   Le courriel ne peut pas être modifié.
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Input.Adresse" class="form-label fw-semibold">
+                    <i class="bi bi-house text-primary"></i> Adresse
+                </label>
+                <input asp-for="Input.Adresse" class="form-control" placeholder="123 rue Principale" />
+                <span asp-validation-for="Input.Adresse" class="text-danger small"></span>
+            </div>
+
+            <div class="row">
+                <div class="col-md-7 mb-3">
+                    <label asp-for="Input.Ville" class="form-label fw-semibold">
+                        <i class="bi bi-geo-alt text-primary"></i> Ville
+                    </label>
+                    <input asp-for="Input.Ville" class="form-control" placeholder="Montréal" />
+                    <span asp-validation-for="Input.Ville" class="text-danger small"></span>
+                </div>
+
+                <div class="col-md-5 mb-3">
+                    <label asp-for="Input.CodePostal" class="form-label fw-semibold">
+                        <i class="bi bi-mailbox text-primary"></i> Code postal
+                    </label>
+                    <input asp-for="Input.CodePostal" class="form-control" placeholder="H2X 1Y4" maxlength="7" />
+                    <span asp-validation-for="Input.CodePostal" class="text-danger small"></span>
+                </div>
+            </div>
+
+            <button id="update-profile-button" type="submit" class="w-100 btn btn-lg btn-primary">
+                <i class="bi bi-check-circle"></i> Sauvegarder
+             </button>
         </form>
     </div>
 </div>
